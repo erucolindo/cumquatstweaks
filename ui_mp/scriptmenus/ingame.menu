@@ -7,6 +7,7 @@
 #define ORIGIN_CHOICE4	80 156
 #define ORIGIN_CHOICE5	80 180
 #define ORIGIN_CHOICE6	80 204
+#define ORIGIN_CHOICE7	80 228
 #define ORIGIN_CHOICE9	80 276
 #define ORIGIN_CHOICE0	80 300
 
@@ -18,7 +19,7 @@
 		focuscolor		GLOBAL_FOCUSED_COLOR
 		style			WINDOW_STYLE_EMPTY
 		blurWorld		5.0
-		onEsc 
+		onEsc
 		{
 			close ingame;
 		}
@@ -47,7 +48,7 @@
 			textscale		GLOBAL_HEADER_SIZE
 			decoration
 		}
-		
+
 // MENU CHOICES
 		execKey "1" { play "mouse_click"; scriptMenuResponse "changeweapon" }
 		execKey "2" { play "mouse_click"; scriptMenuResponse "changeteam" }
@@ -56,7 +57,7 @@
 		execKey "5" { play "mouse_click"; close ingame; open leavegame }
 		execKey "0" { play "mouse_click"; close ingame; open cumquats }
 		execKey "r" { scriptMenuResponse "dropweapon" }
-		
+
 		itemDef
 		{
 			name			"button_changeweapon"
@@ -82,7 +83,7 @@
 				play "mouse_over";
 			}
 		}
-		itemDef 
+		itemDef
 		{
 			name			"button_changeweapon"
 			visible			1
@@ -100,7 +101,7 @@
 			decoration
 		}
 
-		itemDef 
+		itemDef
 		{
 			name			"button_changeteam"
 			visible			1
@@ -123,8 +124,8 @@
 				play "mouse_over";
 			}
 		}
-				
-		itemDef 
+
+		itemDef
 		{
 			name			"button_muteplayer"
 			visible			1
@@ -148,7 +149,7 @@
 			}
 		}
 
-		itemDef 
+		itemDef
 		{
 			name			"button_callvote"
 			visible			1
@@ -173,7 +174,7 @@
 				play "mouse_over";
 			}
 		}
-		itemDef 
+		itemDef
 		{
 			name			"button_callvote"
 			visible			1
@@ -191,7 +192,7 @@
 			decoration
 		}
 
-		itemDef 
+		itemDef
 		{
 			name			"button_leavegame"
 			visible			1
@@ -215,8 +216,8 @@
 				play "mouse_over";
 			}
 		}
-		
-		itemDef 
+
+		itemDef
 		{
 			name			"button_cumquats"
 			visible			1
@@ -240,8 +241,8 @@
 				play "mouse_over";
 			}
 		}
-		
-		itemDef 
+
+		itemDef
 		{
 			#include "ui_mp/button_mainmenu.menu"
 
@@ -257,7 +258,7 @@
 			}
 		}
 	}
-	
+
 	menuDef
 	{
 		name			"leavegame"
@@ -265,11 +266,11 @@
 		focuscolor		GLOBAL_FOCUSED_COLOR
 		style			WINDOW_STYLE_EMPTY
 		blurWorld		5.0
-		onEsc 
+		onEsc
 		{
 			close leavegame;
 		}
-		onOpen 
+		onOpen
 		{
 		}
 		onClose
@@ -355,7 +356,7 @@
 			}
 		}
 
-		itemDef 
+		itemDef
 		{
 			#include "ui_mp/button_mainmenu.menu"
 
@@ -371,7 +372,7 @@
 			}
 		}
 	}
-	
+
 	menuDef
 	{
 		name			"cumquats"
@@ -379,11 +380,11 @@
 		focuscolor		GLOBAL_FOCUSED_COLOR
 		style			WINDOW_STYLE_EMPTY
 		blurWorld		5.0
-		onEsc 
+		onEsc
 		{
 			close cumquats;
 		}
-		onOpen 
+		onOpen
 		{
 		}
 		onClose
@@ -422,7 +423,8 @@
 		execKey "4" { play "mouse_click"; scriptMenuResponse "togglecrazy" }
 		execKey "5" { play "mouse_click"; scriptMenuResponse "togglepistol" }
 		execKey "6" { play "mouse_click"; scriptMenuResponse "toggledual" }
-		
+		execKey "7" { play "mouse_click"; scriptMenuResponse "toggledual" }
+
 		itemDef
 		{
 			name			"button_randomweapons"
@@ -446,9 +448,9 @@
 				play "mouse_over";
 			}
 		}
-			
 
-		itemDef 
+
+		itemDef
 		{
 			name			"button_killcam"
 			visible			1
@@ -471,8 +473,8 @@
 				play "mouse_over";
 			}
 		}
-		
-		itemDef 
+
+		itemDef
 		{
 			name			"button_instagib"
 			visible			1
@@ -495,8 +497,8 @@
 				play "mouse_over";
 			}
 		}
-				
-		itemDef 
+
+		itemDef
 		{
 			name			"button_crazymode"
 			visible			1
@@ -520,7 +522,7 @@
 			}
 		}
 
-		itemDef 
+		itemDef
 		{
 			name			"button_pistolmode"
 			visible			1
@@ -544,7 +546,7 @@
 			}
 		}
 
-		itemDef 
+		itemDef
 		{
 			name			"button_dualmode"
 			visible			1
@@ -568,7 +570,31 @@
 			}
 		}
 
-		itemDef 
+		itemDef
+		{
+			name			"button_gunmode"
+			visible			1
+			rect			0 0 128 24
+			origin			ORIGIN_CHOICE7
+			forecolor		GLOBAL_UNFOCUSED_COLOR
+			type			ITEM_TYPE_BUTTON
+			text			"7. Toggle Gun Game"
+			textfont		UI_FONT_NORMAL
+			textscale		GLOBAL_TEXT_SIZE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textaligny		20
+			action
+			{
+				play "mouse_click";
+				scriptMenuResponse "togglegun";
+			}
+			onFocus
+			{
+				play "mouse_over";
+			}
+		}
+
+		itemDef
 		{
 			#include "ui_mp/button_mainmenu.menu"
 

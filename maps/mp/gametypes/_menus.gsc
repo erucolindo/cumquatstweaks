@@ -75,16 +75,16 @@ onMenuResponse()
 			}
 			else if(menu == game["menu_weapon_allies"] || menu == game["menu_weapon_axis"])
 				self openMenu(game["menu_team"]);
-				
+
 			continue;
 		}
-		
+
 		if(response == "togglerandom")
 		{
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.randomweapons == false)
 			{
 				level.randomweapons = true;
@@ -95,16 +95,16 @@ onMenuResponse()
 				level.randomweapons = false;
 				maps\mp\gametypes\_cumquats::sayBoldAll("^1Random weapon at respawn is now disabled.");
 			}
-			
+
 			continue;
 		}
-		
+
 		if(response == "togglecrazy")
 		{
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.gamemode == "crazy")
 			{
 				level.gamemode = "default";
@@ -117,17 +117,17 @@ onMenuResponse()
 				maps\mp\gametypes\_cumquats::sayBoldAll("^1C^2r^3a^4z^5y ^6F^1u^2n ^3M^4o^5d^6e ^2Activated!");
 				//initiated fun mode
 			}
-			
+
 			level notify("togglegamemodes");
 			continue;
 		}
-		
+
 		if(response == "togglekillcam")
 		{
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.showkillcam == false)
 			{
 				level.showkillcam = true;
@@ -138,7 +138,7 @@ onMenuResponse()
 				level.showkillcam = false;
 				maps\mp\gametypes\_cumquats::sayBoldAll("^1Killcam is now disabled.");
 			}
-			
+
 			continue;
 		}
 
@@ -150,13 +150,13 @@ onMenuResponse()
 
 			continue;
 		}
-		
+
 		if(response == "togglepistol")
 		{
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.gamemode == "pistol")
 			{
 				level.gamemode = "default";
@@ -167,7 +167,7 @@ onMenuResponse()
 				level.gamemode = "pistol";
 				maps\mp\gametypes\_cumquats::sayBoldAll("^2Pistol Mode is now enabled.");
 			}
-			
+
 			level notify("togglegamemodes");
 			continue;
 		}
@@ -177,7 +177,7 @@ onMenuResponse()
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.gamemode == "dual")
 			{
 				level.gamemode = "default";
@@ -188,17 +188,17 @@ onMenuResponse()
 				level.gamemode = "dual";
 				maps\mp\gametypes\_cumquats::sayBoldAll("^2Dual Mode is now enabled.");
 			}
-			
+
 			level notify("togglegamemodes");
 			continue;
 		}
-		
+
 		if(response == "toggleinstagib")
 		{
 			self closeMenu();
 			self closeInGameMenu();
 			players = getentarray("player", "classname");
-			
+
 			if(level.instagib == false)
 			{
 				level.instagib = true;
@@ -209,7 +209,28 @@ onMenuResponse()
 				level.instagib = false;
 				maps\mp\gametypes\_cumquats::sayBoldAll("^1Instagib is now disabled.");
 			}
-			
+
+			continue;
+		}
+
+		if(response == "togglegun")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			players = getentarray("player", "classname");
+
+			if(level.gamemode == "gun")
+			{
+				level.gamemode = "default";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^1Gun Game is now disabled.");
+			}
+			else
+			{
+				level.gamemode = "gun";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^2Gun Game is now enabled.");
+			}
+
+			level notify("togglegamemodes");
 			continue;
 		}
 
@@ -218,7 +239,7 @@ onMenuResponse()
 		{
 			if(level.splitscreen)
 				level thread [[level.endgameconfirmed]]();
-				
+
 			continue;
 		}
 
@@ -233,7 +254,7 @@ onMenuResponse()
 					self openMenu(game["menu_weapon_allies"]);
 				else if(self.pers["team"] == "axis")
 					self openMenu(game["menu_weapon_axis"]);
-				break;	
+				break;
 
 			case "changeteam":
 				self closeMenu();
