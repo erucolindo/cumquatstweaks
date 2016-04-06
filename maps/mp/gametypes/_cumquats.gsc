@@ -138,14 +138,14 @@ selectRandomWeaponAll()
 giveRandomPistol(slot)
 {
 	pistoltype = randomPistol();
-	
+
 	if(slot == "primary")
 		while(pistoltype == self getweaponslotweapon("primaryb"))
 			pistoltype = randomPistol();
 	else
 		while(pistoltype == self getweaponslotweapon("primary"))
 			pistoltype = randomPistol();
-	
+
 	self setWeaponSlotWeapon(slot, pistoltype);
 	self giveMaxAmmo(pistoltype);
 }
@@ -164,15 +164,85 @@ randomPistol()
 	}
 }
 
+randomSMG()
+{
+	for(;;)
+	{
+		switch(randomInt(6))
+		{
+			case 0: return "thompson_mp";
+			case 1: return "greasegun_mp";
+			case 2: return "sten_mp";
+			case 3: return "PPS42_mp";
+			case 4: return "ppsh_mp";
+			case 5: return "mp40_mp";
+		}
+	}
+}
+
+randomRifle()
+{
+	for(;;)
+	{
+		switch(randomInt(4))
+		{
+			case 0: return "SVT40_mp";
+			case 1: return "g43_mp";
+			case 2: return "m1carbine_mp";
+			case 3: return "m1garand_mp";
+		}
+	}
+}
+
+randomBolt()
+{
+	for(;;)
+	{
+		switch(randomInt(3))
+		{
+			case 0: return "mosin_nagant_mp";
+			case 1: return "kar98k_mp";
+			case 2: return "enfield_mp";
+		}
+	}
+}
+
+randomSniper()
+{
+	for(;;)
+	{
+		switch(randomInt(4))
+		{
+			case 0: return "mosin_nagant_sniper_mp";
+			case 1: return "springfield_mp";
+			case 2: return "kar98k_sniper_mp";
+			case 3: return "enfield_scope_mp";
+		}
+	}
+}
+
+randomMG()
+{
+	for(;;)
+	{
+		switch(randomInt(3))
+		{
+			case 0: return "mp44_mp";
+			case 1: return "bren_mp";
+			case 2: return "bar_mp";
+		}
+	}
+}
+
 enforcePistolRule()
 {
 	self endon("disconnect");
 	level endon("intermission");
-	
+
 	self playLocalSound("ctf_touchcapture");
-	
+
 	sayBoldAll(self.name + " is on pistol rule!");
-	
+
 	self.pers["pistolrule"] = true;
 
 	for(;;)
@@ -193,23 +263,23 @@ initGameModes()
 {
 	self endon("disconnect");
 	level endon("intermission");
-	
+
 	for(;;)
 	{
 		level waittill("togglegamemodes");
 		level.crazymodetype = 0;
-		
+
 		if(level.gamemode == "crazy")
 		{
 			level.crazymodenext = getTime() + 10000;
-			
+
 			thread runCrazyMode();
 		}
 		else
 		{
 			level notify("endcrazymode");
 		}
-		
+
 		if(level.gamemode == "pistol")
 		{
 			players = getentarray("player", "classname");
@@ -218,16 +288,28 @@ initGameModes()
 				player = players[i];
 				player dropItem(player getweaponslotweapon("primary"));
 				player dropItem(player getweaponslotweapon("primaryb"));
-				
+
 				player giveRandomPistol("primary");
 				player giveRandomPistol("primaryb");
 			}
-					
+
 			thread runPistolMode();
 		}
 		else
 		{
 			level notify("endpistolmode");
+		}
+
+		if(level.gamemode == "gun")
+		{
+			initGunMode();
+			players = getentarray("player", "classname");
+			for(i = 0; i < players.size; i++)
+				players[i] giveGunModeWeapon();
+		}
+		else
+		{
+			level notify("endgunmode");
 		}
 	}
 }
@@ -237,7 +319,7 @@ runCrazyMode()
 	self endon("disconnect");
 	level endon("intermission");
 	level endon("endcrazymode");
-	
+
 	for(;;)
 	{
 		if(level.crazymodenext < getTime()) //Start next gamemode if time is up
@@ -247,10 +329,10 @@ runCrazyMode()
 			{
 				level.crazymodetype = randomIntRange(1, 11);
 			}
-			
+
 			timetonext = randomIntRange(20, 60);
 			level.crazymodenext = getTime() + (timetonext * 1000); //Setup new time
-			
+
 			switch(oldgamemode) //Old gamemode cleanup
 			{
 				case 5:
@@ -278,7 +360,7 @@ runCrazyMode()
 					}
 				}
 			}
-			
+
 			switch(level.crazymodetype) //New gamemode startup code
 			{
 				case 1:
@@ -340,87 +422,87 @@ runCrazyMode()
 				case 2:
 				{
 					sayBoldAll("^6Double ^5Damage!");
-					
+
 					break;
 				}
 				case 3:
 				{
 					sayBoldAll("^1We^3apo^2n Ju^4ggl^6er");
-					
+
 					break;
 				}
 				case 4:
 				{
 					sayBoldAll("DRAW!");
-					
+
 					players = getentarray("player", "classname");
 					for(i = 0; i < players.size; i++)
 					{
 						player = players[i];
 						player dropItem(player getweaponslotweapon("primary"));
 						player dropItem(player getweaponslotweapon("primaryb"));
-						
+
 						player giveRandomPistol("primary");
 						player giveRandomPistol("primaryb");
 						player setSpawnWeapon(player getweaponslotweapon("primary"));
 					}
-					
+
 					break;
 				}
 				case 5:
 				{
 					sayBoldAll("Exp^3losi^1on Bo^3nan^7za!");
-					
+
 					break;
 				}
 				case 6:
 				{
 					sayBoldAll("^1Stalingrad Rush");
-					
+
 					break;
 				}
 				case 7:
 				{
 					sayBoldAll("^2EARTHQUAKE!");
-					
+
 					//earthquake( 0.3, timetonext, level.origin, 10000);
-					
+
 					break;
 				}
 				case 8:
 				{
 					sayBoldAll("^9Mit d^1er Pum^3pgun");
-					
+
 					players = getentarray("player", "classname");
 					for(i = 0; i < players.size; i++)
 					{
 						player = players[i];
 						player dropItem(player getweaponslotweapon("primary"));
 						player dropItem(player getweaponslotweapon("primaryb"));
-						
+
 						player.pers["weapon"] = "shotgun_mp";
 						player giveWeapon(player.pers["weapon"]);
 						player giveMaxAmmo(player.pers["weapon"]);
 						self setSpawnWeapon(self getweaponslotweapon("primary"));
 					}
-					
+
 					break;
 				}
 				case 9:
 				{
 					sayBoldAll("JUMP!");
-					
+
 					break;
 				}
 				case 10:
 				{
 					sayBoldAll("Blink");
-					
+
 					break;
 				}
 			}
 		}
-		
+
 		switch(level.crazymodetype) //Run gamecode each tick
 		{
 			case 4:
@@ -437,7 +519,7 @@ runCrazyMode()
 					if(player maps\mp\gametypes\_weapons::isMainWeapon(current))
 						player dropItem(current);
 				}
-				
+
 				break;
 			}
 			case 5:
@@ -448,21 +530,21 @@ runCrazyMode()
 					player = players[i];
 					player dropItem(player getweaponslotweapon("primary")); //drop weapons
 					player dropItem(player getweaponslotweapon("primaryb"));
-					
+
 					count = player getammocount("frag_grenade_american_mp");
 					count += player getammocount("frag_grenade_british_mp");
 					count += player getammocount("frag_grenade_russian_mp");
 					count += player getammocount("frag_grenade_german_mp");
-					
+
 					if(count < 1) //if no granades give a new random grenade
 					{
 						player takeWeapon("frag_grenade_american_mp");
 						player takeWeapon("frag_grenade_british_mp");
 						player takeWeapon("frag_grenade_russian_mp");
 						player takeWeapon("frag_grenade_german_mp");
-						
+
 						grenadetype = "frag_grenade_german_mp";
-						
+
 						switch(randomInt(3))
 						{
 							case 0: grenadetype = "frag_grenade_american_mp"; break;
@@ -470,12 +552,12 @@ runCrazyMode()
 							case 2: grenadetype = "frag_grenade_russian_mp"; break;
 							case 3: grenadetype = "frag_grenade_german_mp"; break;
 						}
-				
+
 						player giveWeapon(grenadetype);
 						player setWeaponClipAmmo(grenadetype, 1);
 					}
 				}
-				
+
 				break;
 			}
 			case 6:
@@ -489,9 +571,9 @@ runCrazyMode()
 					if(player getweaponslotclipammo("primary") == 0)
 						player dropItem(player getweaponslotweapon("primary"));
 					if(player getweaponslotclipammo("primaryb") == 0)
-						player dropItem(player getweaponslotweapon("primaryb"));	
+						player dropItem(player getweaponslotweapon("primaryb"));
 				}
-				
+
 				break;
 			}
 			case 7:
@@ -506,7 +588,7 @@ runCrazyMode()
 						player playrumble("damage_heavy");
 					}
 				}
-				
+
 				break;
 			}
 			case 8:
@@ -523,7 +605,7 @@ runCrazyMode()
 					if(!(current == "shotgun_mp"))
 						player dropItem(current);
 				}
-				
+
 				break;
 			}
 			case 10:
@@ -531,15 +613,15 @@ runCrazyMode()
 				players = getentarray("player", "classname");
 				for(i = 0; i < players.size; i++)
 					players[i].pers["frozen"] = false;
-				
+
 				for(i = 0; i < players.size; i++)
 					for(j = 0; j < players.size; j++)
 						if(players[i] isLookingAt(players[j]))
 							players[j].pers["frozen"] = true;
-				
+
 				for(i = 0; i < players.size; i++)
 					players[i] freezeControls(players[i].pers["frozen"]);
-					
+
 				break;
 			}
 		}
@@ -559,7 +641,7 @@ runPistolMode()
 	self endon("disconnect");
 	level endon("intermission");
 	level endon("endpistolmode");
-	
+
 	for(;;)
 	{
 		players = getentarray("player", "classname");
@@ -578,6 +660,61 @@ runPistolMode()
 	}
 }
 
+initGunMode()
+{
+	level.gunModeWeapon = [];
+	weapons = [];
+	weapons[0] = randomSMG();
+	weapons[1] = randomSMG();
+	while(weapons[1] == weapons[0])
+		weapons[1] = randomSMG();
+	weapons[2] = randomRifle();
+	weapons[3] = randomRifle();
+	while(weapons[3] == weapons[2])
+		weapons[3] = randomRifle();
+	weapons[4] = "shotgun_mp";
+	weapons[5] = randomSniper();
+	weapons[6] = randomMG();
+	weapons[7] = randomPistol();
+
+	for(i = 0; i < level.scorelimit; i++)
+		level.gunModeWeapon[i] = weapons[int((weapons.size / level.scorelimit) * (i + 1))];
+
+	thread runGunMode();
+}
+
+runGunMode()
+{
+	self endon("disconnect");
+	level endon("intermission");
+	level endon("endgunmode");
+
+	for(;;)
+	{
+		players = getentarray("player", "classname");
+		for(i = 0; i < players.size; i++)
+		{
+			player = players[i];
+			current = player getweaponslotweapon("primary");
+			if(level.gunModeWeapon[player.score] != current)
+				player dropItem(current);
+			player dropItem(player getweaponslotweapon("primaryb"));
+		}
+
+		wait 0.05;
+	}
+}
+
+giveGunModeWeapon()
+{
+	weapon = level.gunModeWeapon[self.score];
+	if(weapon != self getweaponslotweapon("primary"))
+	{
+		self setWeaponSlotWeapon("primary", weapon);
+		self giveMaxAmmo(weapon);
+	}
+}
+
 gameModeRespawn()
 {
 	switch(level.gamemode)
@@ -591,7 +728,7 @@ gameModeRespawn()
 					self giveRandomPistol("primary");
 					self giveRandomPistol("primaryb");
 					maps\mp\gametypes\_weapons::giveBinoculars();
-					
+
 					break;
 				}
 				case 5:
@@ -604,10 +741,10 @@ gameModeRespawn()
 					self giveWeapon(self.pers["weapon"]);
 					self giveMaxAmmo(self.pers["weapon"]);
 					self setSpawnWeapon(self getweaponslotweapon("primary"));
-					
+
 					maps\mp\gametypes\_weapons::giveGrenades();
 					maps\mp\gametypes\_weapons::giveBinoculars();
-					
+
 					break;
 				}
 				default:
@@ -630,7 +767,7 @@ gameModeRespawn()
 					self setSpawnWeapon(self.pers["weapon"]);
 				}
 			}
-			
+
 			break;
 		}
 		case "pistol":
@@ -639,10 +776,10 @@ gameModeRespawn()
 			self giveRandomPistol("primary");
 			self giveRandomPistol("primaryb");
 			self setSpawnWeapon(self getweaponslotweapon("primary"));
-			
+
 			maps\mp\gametypes\_weapons::giveGrenades();
 			maps\mp\gametypes\_weapons::giveBinoculars();
-			
+
 			break;
 		}
 		case "dual":
@@ -653,11 +790,16 @@ gameModeRespawn()
 			self giveMaxAmmo(weapon1);
 			self setWeaponSlotWeapon("primaryb", weapon2);
 			self giveMaxAmmo(weapon2);
-			self setSpawnWeapon(self getweaponslotweapon("primary"));				
-			
+			self setSpawnWeapon(self getweaponslotweapon("primary"));
+
 			maps\mp\gametypes\_weapons::giveGrenades();
 			maps\mp\gametypes\_weapons::giveBinoculars();
-			
+
+			break;
+		}
+		case "gun":
+		{
+			self giveGunModeWeapon();
 			break;
 		}
 	}

@@ -137,7 +137,7 @@ Callback_StartGameType()
 	// Force respawning
 	if(getCvar("scr_forcerespawn") == "")
 		setCvar("scr_forcerespawn", "0");
-	
+
 	// Setting cumquats tweaks
 	level.randomweapons = true;
 	level.showkillcam = true;
@@ -150,7 +150,7 @@ Callback_StartGameType()
 
 	level.QuickMessageToAll = true;
 	level.mapended = false;
-	
+
 	thread maps\mp\gametypes\_cumquats::initGameModes();
 	thread startGame();
 	thread updateGametypeCvars();
@@ -265,21 +265,21 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 	// Make sure at least one point of damage is done
 	if(iDamage < 1)
 		iDamage = 1;
-	
+
 	if(level.gamemode == "crazy")
 	{
 		if(level.crazymodetype == 2)
 			iDamage = iDamage * 2;
-		
+
 		if(level.crazymodetype == 1)
 			if(!(level.crazymodehitbox1 == sHitLoc || level.crazymodehitbox2 == sHitLoc || level.crazymodehitbox3 == sHitLoc))
 				iDamage = 1;
-		
+
 		if(level.crazymodetype == 9)
 			if(eAttacker isOnGround())
 				iDamage = 1;
 	}
-		
+
 	if(level.instagib)
 		iDamage = 10000;
 
@@ -337,10 +337,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	// If the player was killed by a head shot, let players know it was a head shot kill
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
-	
+
 	meters = int(distance(attacker.origin , self.origin) * 0.0254);
 	players = getentarray("player", "classname");
-	
+
 	if(isPlayer(attacker) && attacker != self)
 		for(i = 0; i < players.size; i++)
 			if(!players[i].killcam)
@@ -381,15 +381,15 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 			attacker.score++;
 			attacker checkScoreLimit();
-			
+
 			attacker.killstreak++;
 			attacker maps\mp\gametypes\_cumquats::checkKillstreak();
-			
+
 			if(level.crazymodetype == 3)
 			{
 				attacker takeWeapon(attacker getweaponslotweapon("primary"));
 				attacker takeWeapon(attacker getweaponslotweapon("primaryb"));
-				
+
 				attacker.pers["weapon"] = maps\mp\gametypes\_cumquats::selectRandomWeaponAll();
 				attacker maps\mp\gametypes\_cumquats::giveRandomPistol("primaryb");
 
@@ -419,7 +419,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	}
 
 	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
-	
+
 	self.killstreak = 0;
 
 	// Stop thread if map ended on this death
@@ -476,7 +476,7 @@ spawnPlayer()
 		maps\mp\gametypes\_teams::model();
 	else
 		maps\mp\_utility::loadModel(self.pers["savedmodel"]);
-	
+
 	if(level.gamemode == "default")
 	{
 		if(level.randomweapons)
@@ -488,7 +488,7 @@ spawnPlayer()
 		{
 			maps\mp\gametypes\_weapons::givePistol();
 		}
-		
+
 		maps\mp\gametypes\_weapons::giveGrenades();
 		maps\mp\gametypes\_weapons::giveBinoculars();
 
@@ -778,9 +778,12 @@ checkScoreLimit()
 
 	if(level.scorelimit <= 0)
 		return;
-	
+
 	if((self.score == (level.scorelimit - 1)) && (level.gamemode == "default"))
 		self thread maps\mp\gametypes\_cumquats::enforcePistolRule();
+
+	if(level.gamemode == "gun")
+		self maps\mp\gametypes\_cumquats::giveGunModeWeapon();
 
 	if(self.score < level.scorelimit)
 		return;
@@ -1009,4 +1012,3 @@ menuWeapon(response)
 			self iprintln(&"MP_YOU_WILL_RESPAWN_WITH_A", weaponname);
 	}
 }
-
