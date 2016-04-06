@@ -222,12 +222,12 @@ onMenuResponse()
 			if(level.gamemode == "gun")
 			{
 				level.gamemode = "default";
-				maps\mp\gametypes\_cumquats::sayBoldAll("^1Gun Game is now disabled.");
+				maps\mp\gametypes\_cumquats::sayBoldAll("^1Gun Game has ended.");
 			}
 			else
 			{
 				level.gamemode = "gun";
-				maps\mp\gametypes\_cumquats::sayBoldAll("^2Gun Game is now enabled.");
+				maps\mp\gametypes\_cumquats::sayBoldAll("^2Gun Game is now on.");
 			}
 
 			level notify("togglegamemodes");
