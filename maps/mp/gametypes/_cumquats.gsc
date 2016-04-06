@@ -676,9 +676,24 @@ initGunMode()
 	weapons[5] = randomSniper();
 	weapons[6] = randomMG();
 	weapons[7] = randomPistol();
+	weapons[8] = weapons[7];
 
 	for(i = 0; i < level.scorelimit; i++)
 		level.gunModeWeapon[i] = weapons[int((weapons.size / level.scorelimit) * (i + 1))];
+
+	players = getentarray("player", "classname");
+	for(i = 0; i < players.size; i++)
+	{
+		player = players[i];
+		player takeWeapon("frag_grenade_american_mp");
+		player takeWeapon("frag_grenade_british_mp");
+		player takeWeapon("frag_grenade_russian_mp");
+		player takeWeapon("frag_grenade_german_mp");
+		player takeWeapon("smoke_grenade_american_mp");
+		player takeWeapon("smoke_grenade_british_mp");
+		player takeWeapon("smoke_grenade_russian_mp");
+		player takeWeapon("smoke_grenade_german_mp");
+	}
 
 	thread runGunMode();
 }
@@ -712,6 +727,7 @@ giveGunModeWeapon()
 	{
 		self setWeaponSlotWeapon("primary", weapon);
 		self giveMaxAmmo(weapon);
+		self setSpawnWeapon(weapon);
 	}
 }
 
