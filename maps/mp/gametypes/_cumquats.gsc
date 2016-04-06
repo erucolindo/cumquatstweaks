@@ -305,7 +305,7 @@ initGameModes()
 			initGunMode();
 			players = getentarray("player", "classname");
 			for(i = 0; i < players.size; i++)
-				player giveGunModeWeapon();
+				players[i] giveGunModeWeapon();
 		}
 		else
 		{
@@ -679,20 +679,27 @@ initGunMode()
 
 	for(i = 0; i < level.scorelimit; i++)
 		level.gunModeWeapon[i] = weapons[int((weapons.size / level.scorelimit) * (i + 1))];
+
+	thread runGunMode();
 }
 
 runGunMode()
 {
 	self endon("disconnect");
 	level endon("intermission");
-	level endon("endgunmode")
+	level endon("endgunmode");
 
 	for(;;)
 	{
-		current = self getweaponslotweapon("primary");
-		if(level.gunModeWeapon[self.score] != current)
-			self dropItem(current);
-		self dropItem(self getweaponslotweapon("primaryb"));
+		players = getentarray("player", "classname");
+		for(i = 0; i < players.size; i++)
+		{
+			player = players[i];
+			current = player getweaponslotweapon("primary");
+			if(level.gunModeWeapon[player.score] != current)
+				player dropItem(current);
+			player dropItem(player getweaponslotweapon("primaryb"));
+		}
 
 		wait 0.05;
 	}
@@ -700,7 +707,7 @@ runGunMode()
 
 giveGunModeWeapon()
 {
-	weapon = level.gunModeWeapon[self.score]
+	weapon = level.gunModeWeapon[self.score];
 	if(weapon != self getweaponslotweapon("primary"))
 	{
 		self setWeaponSlotWeapon("primary", weapon);
