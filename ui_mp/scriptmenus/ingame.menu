@@ -423,7 +423,7 @@
 		execKey "4" { play "mouse_click"; scriptMenuResponse "togglecrazy" }
 		execKey "5" { play "mouse_click"; scriptMenuResponse "togglepistol" }
 		execKey "6" { play "mouse_click"; scriptMenuResponse "toggledual" }
-		execKey "7" { play "mouse_click"; scriptMenuResponse "toggledual" }
+		execKey "7" { play "mouse_click"; scriptMenuResponse "togglegun" }
 
 		itemDef
 		{
