@@ -734,7 +734,7 @@ runGunMode()
 	}
 }
 
-giveGunModeWeapon()
+giveGunModeWeapon(announce)
 {
 	if(self.score == (level.scorelimit - 1))
 		weapon = "shotgun_mp";
@@ -743,6 +743,10 @@ giveGunModeWeapon()
 
 	if(weapon != self getweaponslotweapon("primary"))
 	{
+		if(announce)
+		{
+			self playLocalSound("ctf_touchcapture");
+		}
 		self setWeaponSlotWeapon("primary", weapon);
 		self giveMaxAmmo(weapon);
 		self setSpawnWeapon(weapon);
@@ -833,7 +837,7 @@ gameModeRespawn()
 		}
 		case "gun":
 		{
-			self giveGunModeWeapon();
+			self giveGunModeWeapon(false);
 			break;
 		}
 	}

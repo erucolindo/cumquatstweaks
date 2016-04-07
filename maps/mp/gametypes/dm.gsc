@@ -785,7 +785,7 @@ checkScoreLimit()
 		self thread maps\mp\gametypes\_cumquats::enforcePistolRule();
 
 	if(level.gamemode == "gun")
-		self maps\mp\gametypes\_cumquats::giveGunModeWeapon();
+		self maps\mp\gametypes\_cumquats::giveGunModeWeapon(true);
 
 	if(self.score < level.scorelimit)
 		return;
