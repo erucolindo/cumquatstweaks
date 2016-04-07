@@ -636,6 +636,13 @@ sayBoldAll(text)
 		players[i] iprintlnbold(text);
 }
 
+sayAll(text)
+{
+	players = getentarray("player", "classname");
+	for(i = 0; i < players.size; i++)
+		players[i] iprintln(text);
+}
+
 runPistolMode()
 {
 	self endon("disconnect");
@@ -676,7 +683,7 @@ initGunMode()
 	weapons[5] = randomSniper();
 	weapons[6] = randomMG();
 	weapons[7] = randomPistol();
-	weapons[8] = weapons[7];
+	weapons[8] = "shotgun_mp";
 
 	for(i = 0; i < level.scorelimit; i++)
 		level.gunModeWeapon[i] = weapons[int((weapons.size / level.scorelimit) * (i + 1))];
@@ -714,6 +721,11 @@ runGunMode()
 			if(level.gunModeWeapon[player.score] != current)
 				player dropItem(current);
 			player dropItem(player getweaponslotweapon("primaryb"));
+			if(player.score == (level.scorelimit - 1))
+			{
+				player setWeaponSlotAmmo("primary") = 0;
+				player setWeaponSlotClipAmmo("primary") = 0;
+			}
 		}
 
 		wait 0.05;
