@@ -725,8 +725,8 @@ runGunMode()
 			player dropItem(player getweaponslotweapon("primaryb"));
 			if(player.score == (level.scorelimit - 1))
 			{
-				player setWeaponSlotAmmo("primary") = 0;
-				player setWeaponSlotClipAmmo("primary") = 0;
+				player setWeaponSlotAmmo("primary", 0);
+				player setWeaponSlotClipAmmo("primary", 0);
 			}
 		}
 
@@ -868,4 +868,17 @@ preObituary(attacker, target)
 		for(i = 0; i < players.size; i++)
 			if(!players[i].killcam)
 				players[i] iprintln("At " + meters + " meters:");
+
+	return meters;
+}
+
+updateCumquatsAllowMenu()
+{
+	self setClientCvar("cqt_allow_random" ,level.cqtmenu["cqt_allow_random"]);
+	self setClientCvar("cqt_allow_killcam" ,level.cqtmenu["cqt_allow_killcam"]);
+	self setClientCvar("cqt_allow_instagib" ,level.cqtmenu["cqt_allow_instagib"]);
+	self setClientCvar("cqt_allow_crazy" ,level.cqtmenu["cqt_allow_crazy"]);
+	self setClientCvar("cqt_allow_pistol" ,level.cqtmenu["cqt_allow_pistol"]);
+	self setClientCvar("cqt_allow_dual" ,level.cqtmenu["cqt_allow_dual"]);
+	self setClientCvar("cqt_allow_gun" ,level.cqtmenu["cqt_allow_gun"]);
 }

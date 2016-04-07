@@ -201,13 +201,15 @@ Callback_StartGameType()
 	level.gamemode = "default";
 	level.crazymodetype = 0;
 	level.gametype = "ctf";
-	setDvar("cqt_allow_random", "1");
-	setDvar("cqt_allow_killcam", "1");
-	setDvar("cqt_allow_instagib", "1");
-	setDvar("cqt_allow_crazy", "0");
-	setDvar("cqt_allow_pistol", "0");
-	setDvar("cqt_allow_dual", "0");
-	setDvar("cqt_allow_gun", "0");
+
+	level.cqtmenu = [];
+	level.cqtmenu["cqt_allow_random"] = "1";
+	level.cqtmenu["cqt_allow_killcam"] = "1";
+	level.cqtmenu["cqt_allow_instagib"] = "1";
+	level.cqtmenu["cqt_allow_crazy"] = "0";
+	level.cqtmenu["cqt_allow_pistol"] = "0";
+	level.cqtmenu["cqt_allow_dual"] = "0";
+	level.cqtmenu["cqt_allow_gun"] = "0";
 
 	if(!isDefined(game["state"]))
 		game["state"] = "playing";
@@ -251,6 +253,7 @@ Callback_PlayerConnect()
 	self waittill("begin");
 	self.statusicon = "";
 	self.killstreak = 0;
+	self maps\mp\gametypes\_cumquats::updateCumquatsAllowMenu();
 
 	level notify("connected", self);
 
@@ -482,7 +485,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
 
-	maps\mp\gametypes\_cumquats::preObituary(attacker, self);
+	meters = maps\mp\gametypes\_cumquats::preObituary(attacker, self);
 
 	// send out an obituary message to all clients about the kill
 	obituary(self, attacker, sWeapon, sMeansOfDeath);
