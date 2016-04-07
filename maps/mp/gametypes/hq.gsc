@@ -201,12 +201,20 @@ Callback_StartGameType()
 	if(getcvar("scr_drawfriend") == "")
 		setcvar("scr_drawfriend", "1");
 	level.drawfriend = getcvarint("scr_drawfriend");
-	
+
 	// Setting cumquats tweaks
 	level.randomweapons = true;
 	level.showkillcam = true;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
+	level.gametype = "hq";
+	setDvar("cqt_allow_random", "1");
+	setDvar("cqt_allow_killcam", "1");
+	setDvar("cqt_allow_instagib", "1");
+	setDvar("cqt_allow_crazy", "0");
+	setDvar("cqt_allow_pistol", "0");
+	setDvar("cqt_allow_dual", "0");
+	setDvar("cqt_allow_gun", "0");
 
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";
@@ -495,10 +503,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	// If the player was killed by a head shot, let players know it was a head shot kill
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
-	
+
 	meters = int(distance(attacker.origin , self.origin) * 0.0254);
 	players = getentarray("player", "classname");
-	
+
 	for(i = 0; i < players.size; i++)
 		if(!players[i].killcam)
 			players[i] iprintln("At " + meters + " meters:");
@@ -558,7 +566,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			else
 			{
 				attacker.score++;
-				
+
 				attacker.killstreak++;
 				attacker maps\mp\gametypes\_cumquats::checkKillstreak();
 			}
@@ -584,7 +592,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;
-	
+
 	// Stop thread if map ended on this death
 	if(level.mapended)
 		return;
@@ -1176,7 +1184,7 @@ hq_obj_think(radio)
 			continue;
 		NeutralRadios++;
 	}
-	
+
 	if(NeutralRadios <= 0)
 	{
 		if(level.nextradio > level.radio.size - 1)
@@ -1211,7 +1219,7 @@ hq_obj_think(radio)
 //			objective_add(1, "current", fakeposition.origin, game["radio_prespawn"][randAorB]);
 //			thread maps\mp\gametypes\_objpoints::addObjpoint(fakeposition.origin, "1", game["radio_prespawn_objpoint"][randAorB]);
 		}
-		
+
 		if(!isdefined(randAorB))
 			otherAorB = 2; //use original icon since there is only one objective that will show
 		else if(randAorB == 1)
@@ -1223,14 +1231,14 @@ hq_obj_think(radio)
 
 		level hq_check_teams_exist();
 		restartRound = false;
-		
+
 		while((!level.alliesexist) || (!level.axisexist))
 		{
 			restartRound = true;
 			wait 2;
 			level hq_check_teams_exist();
 		}
-		
+
 		if(restartRound)
 			restartRound();
 		level.roundStarted = true;
@@ -2097,7 +2105,7 @@ menuAutoAssign()
 		self openMenu(game["menu_team"]);
 		return;
 	}
-	
+
 	numonteam["allies"] = 0;
 	numonteam["axis"] = 0;
 
@@ -2276,7 +2284,7 @@ menuWeapon(response)
 {
 	if(!isdefined(self.pers["team"]) || (self.pers["team"] != "allies" && self.pers["team"] != "axis"))
 		return;
-	
+
 	if(response == "random")
 		response = maps\mp\gametypes\_cumquats::selectRandomWeapon();
 

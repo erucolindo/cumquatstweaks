@@ -90,7 +90,7 @@ Callback_StartGameType()
 	level.objpointflagmissing_axis = "objpoint_flagmissing_" + game["axis"];
 	level.hudflag_allies = "compass_flag_" + game["allies"];
 	level.hudflag_axis = "compass_flag_" + game["axis"];
-	
+
 	level.hudflagflash_allies = "hud_flagflash_" + game["allies"];
 	level.hudflagflash_axis = "hud_flagflash_" + game["axis"];
 
@@ -194,12 +194,20 @@ Callback_StartGameType()
 	// Force respawning
 	if(getCvar("scr_forcerespawn") == "")
 		setCvar("scr_forcerespawn", "0");
-	
+
 	// Setting cumquats tweaks
 	level.randomweapons = true;
 	level.showkillcam = true;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
+	level.gametype = "ctf";
+	setDvar("cqt_allow_random", "1");
+	setDvar("cqt_allow_killcam", "1");
+	setDvar("cqt_allow_instagib", "1");
+	setDvar("cqt_allow_crazy", "0");
+	setDvar("cqt_allow_pistol", "0");
+	setDvar("cqt_allow_dual", "0");
+	setDvar("cqt_allow_gun", "0");
 
 	if(!isDefined(game["state"]))
 		game["state"] = "playing";
@@ -473,10 +481,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	// If the player was killed by a head shot, let players know it was a head shot kill
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
-	
+
 	meters = int(distance(attacker.origin , self.origin) * 0.0254);
 	players = getentarray("player", "classname");
-	
+
 	for(i = 0; i < players.size; i++)
 		if(!players[i].killcam)
 			players[i] iprintln("At " + meters + " meters:");
@@ -537,7 +545,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			else
 			{
 				attacker.score++;
-				
+
 				attacker.killstreak++;
 				attacker maps\mp\gametypes\_cumquats::checkKillstreak();
 			}
@@ -563,7 +571,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;
-	
+
 	// Stop thread if map ended on this death
 	if(level.mapended)
 		return;
@@ -1286,10 +1294,10 @@ attachFlag()
 		flagModel = "xmodel/prop_flag_" + game["axis"] + "_carry";
 	else
 		flagModel = "xmodel/prop_flag_" + game["allies"] + "_carry";
-	
+
 	self attach(flagModel, "J_Spine4", true);
 	self.flagAttached = true;
-	
+
 	self thread createHudIcon();
 }
 
@@ -1302,7 +1310,7 @@ detachFlag(flag)
 		flagModel = "xmodel/prop_flag_" + game["allies"] + "_carry";
 	else
 		flagModel = "xmodel/prop_flag_" + game["axis"] + "_carry";
-		
+
 	self detach(flagModel, "J_Spine4");
 	self.flagAttached = undefined;
 
@@ -1351,7 +1359,7 @@ createHudIcon()
 	self.hud_flag.alpha = 1;
 
 	wait .2;
-	
+
 	if(isdefined(self.hud_flagflash))
 	{
 		self.hud_flagflash fadeOverTime(1);
@@ -1363,7 +1371,7 @@ deleteHudIcon()
 {
 	if(isdefined(self.hud_flagflash))
 		self.hud_flagflash destroy();
-		
+
 	if(isdefined(self.hud_flag))
 		self.hud_flag destroy();
 }
@@ -1643,7 +1651,7 @@ menuWeapon(response)
 {
 	if(!isDefined(self.pers["team"]) || (self.pers["team"] != "allies" && self.pers["team"] != "axis"))
 		return;
-	
+
 	if(response == "random")
 		response = maps\mp\gametypes\_cumquats::selectRandomWeapon();
 

@@ -438,6 +438,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_random"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -463,6 +465,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_killcam"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -487,6 +491,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_instagib"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -511,6 +517,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_crazy"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -535,6 +543,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_pistol"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -559,6 +569,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_dual"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";
@@ -583,6 +595,8 @@
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textaligny		20
+			dvartest		"cqt_allow_gun"
+			hideDvar		{ "1" }
 			action
 			{
 				play "mouse_click";

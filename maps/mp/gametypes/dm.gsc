@@ -144,6 +144,14 @@ Callback_StartGameType()
 	level.instagib = false;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
+	level.gametype = "dm";
+	setDvar("cqt_allow_random", "1");
+	setDvar("cqt_allow_killcam", "1");
+	setDvar("cqt_allow_instagib", "1");
+	setDvar("cqt_allow_crazy", "1");
+	setDvar("cqt_allow_pistol", "1");
+	setDvar("cqt_allow_dual", "1");
+	setDvar("cqt_allow_gun", "1");
 
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";

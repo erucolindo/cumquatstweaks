@@ -139,16 +139,28 @@ Callback_StartGameType()
 	// Force respawning
 	if(getCvar("scr_forcerespawn") == "")
 		setCvar("scr_forcerespawn", "0");
-	
+
 	// Setting cumquats tweaks
 	level.randomweapons = true;
 	level.showkillcam = true;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
-	
+	level.gametype = "tdm";
+	setDvar("cqt_allow_random", "1");
+	setDvar("cqt_allow_killcam", "1");
+	setDvar("cqt_allow_instagib", "1");
+	setDvar("cqt_allow_crazy", "0");
+	setDvar("cqt_allow_pistol", "1");
+	setDvar("cqt_allow_dual", "1");
+	setDvar("cqt_allow_gun", "1");
+
 	if(getCvar("cqt_tdm_respawntime") == "")
 		setCvar("cqt_tdm_respawntime", "0");
 	level.respawndelay = getCvarInt("cqt_tdm_respawntime");
+
+	if(getCvar("scr_dm_scorelimit") == "")
+		setCvar("scr_dm_scorelimit", "100");
+	level.gunmodescorelimit = getCvarInt("scr_dm_scorelimit");
 
 	if(!isDefined(game["state"]))
 		game["state"] = "playing";
@@ -265,7 +277,7 @@ Callback_PlayerDisconnect()
 		else if(self.pers["team"] == "spectator")
 			setplayerteamrank(self, 2, 0);
 	}
-	
+
 	lpselfnum = self getEntityNumber();
 	lpGuid = self getGuid();
 	logPrint("Q;" + lpGuid + ";" + lpselfnum + ";" + self.name + "\n");
@@ -296,9 +308,9 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 				// Make sure at least one point of damage is done
 				if(iDamage < 1)
 					iDamage = 1;
-				
+
 				if(level.instagib)
-					iDamage = 10000;	
+					iDamage = 10000;
 
 				self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 
@@ -315,7 +327,7 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 				// Make sure at least one point of damage is done
 				if(iDamage < 1)
 					iDamage = 1;
-				
+
 				if(level.instagib)
 					iDamage = 10000;
 
@@ -414,10 +426,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	// If the player was killed by a head shot, let players know it was a head shot kill
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
-	
+
 	meters = int(distance(attacker.origin , self.origin) * 0.0254);
 	players = getentarray("player", "classname");
-	
+
 	for(i = 0; i < players.size; i++)
 		if(!players[i].killcam)
 			players[i] iprintln("At " + meters + " meters:");
@@ -455,7 +467,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 					players = maps\mp\gametypes\_teams::CountPlayers();
 					players[self.leaving_team]--;
 					players[self.joining_team]++;
-				
+
 					if((players[self.joining_team] - players[self.leaving_team]) > 1)
 						attacker.score--;
 				}
@@ -481,8 +493,11 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 				teamscore = getTeamScore(attacker.pers["team"]);
 				teamscore++;
 				setTeamScore(attacker.pers["team"], teamscore);
-				checkScoreLimit();
-				
+				if(level.gamemode == "gun")
+					attacker checkGunModeScoreLimit();
+				else
+					checkScoreLimit();
+
 				attacker.killstreak++;
 				attacker maps\mp\gametypes\_cumquats::checkKillstreak();
 			}
@@ -510,7 +525,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;
-	
+
 	// Stop thread if map ended on this death
 	if(level.mapended)
 		return;
@@ -524,7 +539,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	delay = 2;	// Delay the player becoming a spectator till after he's done dying
 	self thread respawn_timer(delay);
-	
+
 	wait delay;	// ?? Also required for Callback_PlayerKilled to complete before respawn/killcam can execute
 
 	if(doKillcam && level.killcam && level.showkillcam)
@@ -580,7 +595,7 @@ spawnPlayer()
 		{
 			maps\mp\gametypes\_weapons::givePistol();
 		}
-		
+
 		maps\mp\gametypes\_weapons::giveGrenades();
 		maps\mp\gametypes\_weapons::giveBinoculars();
 
@@ -816,7 +831,7 @@ endMap()
 		player closeMenu();
 		player closeInGameMenu();
 		player setClientCvar("cg_objectiveText", text);
-		
+
 		player spawnIntermission();
 	}
 
@@ -835,10 +850,10 @@ endMap()
 		for(i = 0; i < players.size; i++)
 		{
 			player = players[i];
-	
+
 			if(!isdefined(player.score))
 				continue;
-	
+
 			if(!isdefined(highscore) || player.score > highscore)
 				highscore = player.score;
 		}
@@ -890,7 +905,7 @@ checkTimeLimit()
 
 	if(!level.splitscreen)
 		iprintln(&"MP_TIME_LIMIT_REACHED");
-		
+
 	level thread endMap();
 }
 
@@ -910,7 +925,29 @@ checkScoreLimit()
 
 	if(!level.splitscreen)
 		iprintln(&"MP_SCORE_LIMIT_REACHED");
-		
+
+	level thread endMap();
+}
+
+checkGunModeScoreLimit()
+{
+	waittillframeend;
+
+	if(level.scorelimit <= 0)
+		return;
+
+	self maps\mp\gametypes\_cumquats::giveGunModeWeapon();
+
+	if(self.score < level.gunmodescorelimit)
+		return;
+
+	if(level.mapended)
+		return;
+	level.mapended = true;
+
+	if(!level.splitscreen)
+		iprintln(&"MP_SCORE_LIMIT_REACHED");
+
 	level thread endMap();
 }
 
@@ -1047,12 +1084,12 @@ menuAutoAssign()
 	self setClientCvar("ui_allow_weaponchange", "1");
 
 	if(self.pers["team"] == "allies")
-	{	
+	{
 		self openMenu(game["menu_weapon_allies"]);
 		self setClientCvar("g_scriptMainMenu", game["menu_weapon_allies"]);
 	}
 	else
-	{	
+	{
 		self openMenu(game["menu_weapon_axis"]);
 		self setClientCvar("g_scriptMainMenu", game["menu_weapon_axis"]);
 	}
@@ -1210,7 +1247,7 @@ playSoundOnPlayers(sound, team)
 	players = getentarray("player", "classname");
 
 	if(level.splitscreen)
-	{	
+	{
 		if(isdefined(players[0]))
 			players[0] playLocalSound(sound);
 	}
@@ -1279,4 +1316,3 @@ updateTimer()
 			self.respawntimer.alpha = 0;
 	}
 }
-

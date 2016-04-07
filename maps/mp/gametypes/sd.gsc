@@ -281,12 +281,20 @@ Callback_StartGameType()
 	if(getCvar("scr_drawfriend") == "")
 		setCvar("scr_drawfriend", "1");
 	level.drawfriend = getCvarInt("scr_drawfriend");
-	
+
 	// Setting cumquats tweaks
 	level.randomweapons = true;
 	level.showkillcam = true;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
+	level.gametype = "sd";
+	setDvar("cqt_allow_random", "1");
+	setDvar("cqt_allow_killcam", "1");
+	setDvar("cqt_allow_instagib", "1");
+	setDvar("cqt_allow_crazy", "0");
+	setDvar("cqt_allow_pistol", "0");
+	setDvar("cqt_allow_dual", "0");
+	setDvar("cqt_allow_gun", "0");
 
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";
@@ -571,10 +579,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	// If the player was killed by a head shot, let players know it was a head shot kill
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
-	
+
 	meters = int(distance(attacker.origin , self.origin) * 0.0254);
 	players = getentarray("player", "classname");
-	
+
 	for(i = 0; i < players.size; i++)
 		if(!players[i].killcam)
 			players[i] iprintln("At " + meters + " meters:");
@@ -642,7 +650,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			{
 				attacker.pers["score"]++;
 				attacker.score = attacker.pers["score"];
-				
+
 				attacker.killstreak++;
 				attacker maps\mp\gametypes\_cumquats::checkKillstreak();
 			}
@@ -673,7 +681,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;
-	
+
 	self.pers["weapon1"] = undefined;
 	self.pers["weapon2"] = undefined;
 	self.pers["spawnweapon"] = undefined;
@@ -2110,7 +2118,7 @@ menuAutoAssign()
 		self openMenu(game["menu_team"]);
 		return;
 	}
-	
+
 	numonteam["allies"] = 0;
 	numonteam["axis"] = 0;
 
@@ -2294,7 +2302,7 @@ menuWeapon(response)
 {
 	if(!isdefined(self.pers["team"]) || (self.pers["team"] != "allies" && self.pers["team"] != "axis"))
 		return;
-	
+
 	if(response == "random")
 		response = maps\mp\gametypes\_cumquats::selectRandomWeapon();
 
