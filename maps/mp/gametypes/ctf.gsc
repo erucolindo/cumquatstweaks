@@ -482,12 +482,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if(sHitLoc == "head" && sMeansOfDeath != "MOD_MELEE")
 		sMeansOfDeath = "MOD_HEAD_SHOT";
 
-	meters = int(distance(attacker.origin , self.origin) * 0.0254);
-	players = getentarray("player", "classname");
-
-	for(i = 0; i < players.size; i++)
-		if(!players[i].killcam)
-			players[i] iprintln("At " + meters + " meters:");
+	maps\mp\gametypes\_cumquats::preObituary(attacker, self);
 
 	// send out an obituary message to all clients about the kill
 	obituary(self, attacker, sWeapon, sMeansOfDeath);

@@ -854,3 +854,14 @@ checkKillstreak()
 	if(isDefined(killstreak))
 		sayBoldAll(self.name + killstreak);
 }
+
+preObituary(attacker, target)
+{
+	meters = int(distance(attacker.origin, target.origin) * 0.0254);
+	players = getentarray("player", "classname");
+
+	if(isPlayer(attacker) && attacker != target)
+		for(i = 0; i < players.size; i++)
+			if(!players[i].killcam)
+				players[i] iprintln("At " + meters + " meters:");
+}
