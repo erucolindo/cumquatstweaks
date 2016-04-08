@@ -684,11 +684,11 @@ initGunMode()
 	weapons[6] = randomMG();
 	weapons[7] = randomPistol();
 
-	for(i = 0; i < level.scorelimit; i++)
-		level.gunModeWeapon[i] = weapons[int((weapons.size / level.scorelimit) * (i + 1))];
+	for(i = 0; i < level.gunmodescorelimit; i++)
+		level.gunModeWeapon[i] = weapons[int((weapons.size / level.gunmodescorelimit) * (i + 1))];
 
 	for(i = 0; i < weapons.size; i++)
-		sayAll("Level " + (i + 1) + " (at " + int(i / (weapons.size / level.scorelimit)) + " kills): " + weapons[i]);
+		sayAll("Level " + (i + 1) + " (at " + int(i / (weapons.size / level.gunmodescorelimit)) + " kills): " + weapons[i]);
 
 	players = getentarray("player", "classname");
 	for(i = 0; i < players.size; i++)

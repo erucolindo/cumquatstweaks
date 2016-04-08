@@ -155,6 +155,8 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_dual"] = "1";
 	level.cqtmenu["cqt_allow_gun"] = "1";
 
+	level.gunmodescorelimit = level.scorelimit;
+
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";
 
