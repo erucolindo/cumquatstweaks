@@ -723,7 +723,7 @@ runGunMode()
 			if(level.gunModeWeapon[player.score] != current)
 				player dropItem(current);
 			player dropItem(player getweaponslotweapon("primaryb"));
-			if(player.score == (level.scorelimit - 1))
+			if(player.score == (level.gunmodescorelimit - 1))
 			{
 				player setWeaponSlotAmmo("primary", 0);
 				player setWeaponSlotClipAmmo("primary", 0);
@@ -736,7 +736,7 @@ runGunMode()
 
 giveGunModeWeapon(announce)
 {
-	if(self.score == (level.scorelimit - 1))
+	if(self.score == (level.gunmodescorelimit - 1))
 		weapon = "shotgun_mp";
 	else
 		weapon = level.gunModeWeapon[self.score];
