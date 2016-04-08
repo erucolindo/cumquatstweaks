@@ -683,12 +683,13 @@ initGunMode()
 	weapons[5] = randomSniper();
 	weapons[6] = randomMG();
 	weapons[7] = randomPistol();
+	weapons[8] = "shotgun_mp";
 
 	for(i = 0; i < level.gunmodescorelimit; i++)
-		level.gunModeWeapon[i] = weapons[int((weapons.size / level.gunmodescorelimit) * (i + 1))];
+		level.gunModeWeapon[i] = weapons[int(((weapons.size - 1) / level.gunmodescorelimit) * (i + 1))];
 
 	for(i = 0; i < weapons.size; i++)
-		sayAll("Level " + (i + 1) + " (at " + int(i / (weapons.size / level.gunmodescorelimit)) + " kills): " + weapons[i]);
+		sayAll("Level " + (i + 1) + " (at " + int(i / ((weapons.size - 1) / level.gunmodescorelimit) + " kills): " + weapons[i]);
 
 	players = getentarray("player", "classname");
 	for(i = 0; i < players.size; i++)
@@ -736,10 +737,7 @@ runGunMode()
 
 giveGunModeWeapon(announce)
 {
-	if(self.score == (level.gunmodescorelimit - 1))
-		weapon = "shotgun_mp";
-	else
-		weapon = level.gunModeWeapon[self.score];
+	weapon = level.gunModeWeapon[self.score];
 
 	if(weapon != self getweaponslotweapon("primary"))
 	{
