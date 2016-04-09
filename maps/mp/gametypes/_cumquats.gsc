@@ -305,7 +305,7 @@ initGameModes()
 			initGunMode();
 			players = getentarray("player", "classname");
 			for(i = 0; i < players.size; i++)
-				players[i] giveGunModeWeapon();
+				players[i] giveGunModeWeapon(true);
 		}
 		else
 		{
@@ -688,8 +688,8 @@ initGunMode()
 	for(i = 0; i < level.gunmodescorelimit; i++)
 		level.gunModeWeapon[i] = weapons[int(((weapons.size - 1) / level.gunmodescorelimit) * (i + 1))];
 
-	for(i = 0; i < weapons.size; i++)
-		sayAll("Level " + (i + 1) + " (at " + int(i / ((weapons.size - 1) / level.gunmodescorelimit) + " kills): " + weapons[i]);
+	for(i = 0; i < (weapons.size - 1); i++)
+		sayAll("Level " + (i + 1) + " (at " + int(i / ((weapons.size - 1) / level.gunmodescorelimit)) + " kills): " + weapons[i]);
 
 	players = getentarray("player", "classname");
 	for(i = 0; i < players.size; i++)
