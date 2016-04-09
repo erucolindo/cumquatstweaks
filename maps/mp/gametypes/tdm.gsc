@@ -785,6 +785,8 @@ endMap()
 	{
 		alliedscore = 0;
 		axisscore = 0;
+
+		players = getentarray("player", "classname");
 		for(i = 0; i < players.size; i++)
 		{
 			player = players[i];
