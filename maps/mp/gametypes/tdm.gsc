@@ -781,8 +781,30 @@ endMap()
 	game["state"] = "intermission";
 	level notify("intermission");
 
-	alliedscore = getTeamScore("allies");
-	axisscore = getTeamScore("axis");
+	if(level.gamemode == "gun")
+	{
+		alliedscore = 0;
+		axisscore = 0;
+		for(i = 0; i < players.size; i++)
+		{
+			player = players[i];
+			if(player.pers["team"] == "allies")
+			{
+				if(player.score > alliedscore)
+					alliedscore = player.score;
+			}
+			else
+			{
+				if(player.score > axisscore)
+					axisscore = player.score;
+			}
+		}
+	}
+	else
+	{
+		alliedscore = getTeamScore("allies");
+		axisscore = getTeamScore("axis");
+	}
 
 	if(alliedscore == axisscore)
 	{
