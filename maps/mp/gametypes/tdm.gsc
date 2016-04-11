@@ -1020,7 +1020,8 @@ updateGametypeCvars()
 			setCvar("ui_tdm_scorelimit", level.scorelimit);
 			level notify("update_allhud_score");
 		}
-		checkScoreLimit();
+		if(!(level.gamemode == "gun"))
+			checkScoreLimit();
 
 		wait 1;
 	}
