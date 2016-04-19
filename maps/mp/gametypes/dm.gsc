@@ -508,29 +508,7 @@ spawnPlayer()
 	else
 		maps\mp\_utility::loadModel(self.pers["savedmodel"]);
 
-	if(level.gamemode == "default")
-	{
-		if(level.randomweapons)
-		{
-			self.pers["weapon"] = maps\mp\gametypes\_cumquats::selectRandomWeaponAll();
-			self maps\mp\gametypes\_cumquats::giveRandomPistol("primaryb");
-		}
-		else
-		{
-			self maps\mp\gametypes\_weapons::givePistol();
-		}
-
-		self maps\mp\gametypes\_weapons::giveGrenades();
-		self maps\mp\gametypes\_weapons::giveBinoculars();
-
-		self giveWeapon(self.pers["weapon"]);
-		self giveMaxAmmo(self.pers["weapon"]);
-		self setSpawnWeapon(self.pers["weapon"]);
-	}
-	else
-	{
-		self maps\mp\gametypes\_cumquats::gameModeRespawn();
-	}
+	self maps\mp\gametypes\_cumquats::gameModeRespawn();
 
 	if(!level.splitscreen)
 	{
