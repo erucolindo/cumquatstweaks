@@ -316,6 +316,20 @@ initGameModes()
 		{
 			level.randomweapons = false;
 		}
+
+		if(level.gamemode == "achilles")
+		{
+			for(i = 0; i < players.size; i++)
+			{
+				players[i] setClientCvar("cqt_achilles_active", 1);
+				players[i] openMenu("cumquats_achilles");
+			}
+		}
+		else
+		{
+			for(i = 0; i < players.size; i++)
+				players[i] setClientCvar("cqt_achilles_active", 0);
+		}
 	}
 }
 
@@ -756,6 +770,33 @@ giveGunModeWeapon(announce)
 	}
 }
 
+achillesDamage(location, damage)
+{
+	switch(self.pers["achilles_weakpoint"])
+	{
+		case "head":
+			if(!(location == "helmet" || location == "head" || location == "neck"))
+				return 1;
+		case "torso":
+			if(!(location == "torso_upper" || location == "torso_lower"))
+				return 1;
+		case "left_arm":
+			if(!(location == "left_arm_upper" || location == "left_arm_lower" || location == "left_hand"))
+				return 1;
+		case "right_arm":
+			if(!(location == "right_arm_upper" || location == "right_arm_lower" || location == "right_hand"))
+				return 1;
+		case "left_leg":
+			if(!(location == "left_leg_upper" || location == "left_leg_lower" || location == "left_foot"))
+				return 1;
+		case "right_leg":
+			if(!(location == "right_leg_upper" || location == "right_leg_lower" || location == "right_foot"))
+				return 1;
+		default:
+			return damage;
+	}
+}
+
 gameModeRespawn()
 {
 	switch(level.gamemode)
@@ -885,4 +926,10 @@ updateCumquatsAllowMenu()
 	self setClientCvar("cqt_allow_dual" ,level.cqtmenu["cqt_allow_dual"]);
 	self setClientCvar("cqt_allow_gun" ,level.cqtmenu["cqt_allow_gun"]);
 	self setClientCvar("cqt_allow_swap" ,level.cqtmenu["cqt_allow_swap"]);
+	self setClientCvar("cqt_allow_achilles" ,level.cqtmenu["cqt_allow_achilles"]);
+	if(level.gamemode == "achilles")
+		self setClientCvar("cqt_achilles_active", 1);
+	else
+		self setClientCvar("cqt_achilles_active", 0);
+	self.pers["achilles_weakpoint"] = "head";
 }

@@ -83,7 +83,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.randomweapons == false)
 			{
@@ -103,7 +102,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.gamemode == "crazy")
 			{
@@ -126,7 +124,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.showkillcam == false)
 			{
@@ -155,7 +152,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.gamemode == "pistol")
 			{
@@ -176,7 +172,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.gamemode == "dual")
 			{
@@ -197,7 +192,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.instagib == false)
 			{
@@ -217,7 +211,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.gamemode == "gun")
 			{
@@ -238,7 +231,6 @@ onMenuResponse()
 		{
 			self closeMenu();
 			self closeInGameMenu();
-			players = getentarray("player", "classname");
 
 			if(level.gamemode == "swap")
 			{
@@ -252,6 +244,74 @@ onMenuResponse()
 			}
 
 			level notify("togglegamemodes");
+			continue;
+		}
+
+		if(response == "toggleachilles")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+
+			if(level.gamemode == "achilles")
+			{
+				level.gamemode = "default";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^1Achilles Mode disabled.");
+			}
+			else
+			{
+				level.gamemode = "achilles";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^2Achilles Mode enabled.");
+			}
+
+			level notify("togglegamemodes");
+			continue;
+		}
+
+		if(response == "achilles_head")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "head";
+			continue;
+		}
+
+		if(response == "achilles_torso")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "torso";
+			continue;
+		}
+
+		if(response == "achilles_left_arm")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "left_arm";
+			continue;
+		}
+
+		if(response == "achilles_right_arm")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "right_arm";
+			continue;
+		}
+
+		if(response == "achilles_left_leg")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "left_leg";
+			continue;
+		}
+
+		if(response == "achilles_right_leg")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			self.pers["achilles_weakpoint"] = "right_leg";
 			continue;
 		}
 
