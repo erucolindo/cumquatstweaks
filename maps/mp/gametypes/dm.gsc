@@ -139,7 +139,9 @@ Callback_StartGameType()
 		setCvar("scr_forcerespawn", "0");
 
 	// Setting cumquats tweaks
-	level.randomweapons = true;
+	if(getCvar("cqt_random_weapons") == "")
+		setCvar("cqt_random_weapons", "0");
+	level.randomweapons = (getCvarInt("cqt_random_weapons") == 1);
 	level.showkillcam = true;
 	level.instagib = false;
 	level.gamemode = "default";
