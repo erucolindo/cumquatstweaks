@@ -8,6 +8,7 @@
 #define ORIGIN_CHOICE5	80 180
 #define ORIGIN_CHOICE6	80 204
 #define ORIGIN_CHOICE7	80 228
+#define ORIGIN_CHOICE8	80 252
 #define ORIGIN_CHOICE9	80 276
 #define ORIGIN_CHOICE0	80 300
 
@@ -424,6 +425,7 @@
 		execKey "5" { play "mouse_click"; scriptMenuResponse "togglepistol" }
 		execKey "6" { play "mouse_click"; scriptMenuResponse "toggledual" }
 		execKey "7" { play "mouse_click"; scriptMenuResponse "togglegun" }
+		execKey "8" { play "mouse_click"; scriptMenuResponse "toggleswap" }
 
 		itemDef
 		{
@@ -601,6 +603,32 @@
 			{
 				play "mouse_click";
 				scriptMenuResponse "togglegun";
+			}
+			onFocus
+			{
+				play "mouse_over";
+			}
+		}
+
+		itemDef
+		{
+			name			"button_swapmode"
+			visible			1
+			rect			0 0 128 24
+			origin			ORIGIN_CHOICE8
+			forecolor		GLOBAL_UNFOCUSED_COLOR
+			type			ITEM_TYPE_BUTTON
+			text			"8. Toggle Swap Mode"
+			textfont		UI_FONT_NORMAL
+			textscale		GLOBAL_TEXT_SIZE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textaligny		20
+			dvartest		"cqt_allow_swap"
+			showDvar		{ "1" }
+			action
+			{
+				play "mouse_click";
+				scriptMenuResponse "toggleswap";
 			}
 			onFocus
 			{

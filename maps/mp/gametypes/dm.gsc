@@ -154,6 +154,7 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_pistol"] = "1";
 	level.cqtmenu["cqt_allow_dual"] = "1";
 	level.cqtmenu["cqt_allow_gun"] = "1";
+	level.cqtmenu["cqt_allow_swap"] = "1";
 
 	level.gunmodescorelimit = level.scorelimit;
 
@@ -404,6 +405,23 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 				attacker giveMaxAmmo(self.pers["weapon"]);
 				attacker setSpawnWeapon(self.pers["weapon"]);
 			}
+
+			if(level.gamemode == "swap")
+			{
+				attacker_weapon = attacker.pers["weapon"];
+				attacker takeWeapon(attacker getweaponslotweapon("primary"));
+				attacker takeWeapon(attacker getweaponslotweapon("primaryb"));
+
+				attacker.pers["weapon"] = self.pers["weapon"];
+				attacker maps\mp\gametypes\_weapons::givePistol();
+				attacker maps\mp\gametypes\_weapons::giveGrenades();
+				attacker maps\mp\gametypes\_weapons::giveBinoculars();
+				attacker giveWeapon(self.pers["weapon"]);
+				attacker giveMaxAmmo(self.pers["weapon"]);
+				attacker setSpawnWeapon(self.pers["weapon"]);
+
+				self.pers["weapon"] = attacker_weapon;
+			}
 		}
 
 		lpattacknum = attacker getEntityNumber();
@@ -493,11 +511,11 @@ spawnPlayer()
 		}
 		else
 		{
-			maps\mp\gametypes\_weapons::givePistol();
+			self maps\mp\gametypes\_weapons::givePistol();
 		}
 
-		maps\mp\gametypes\_weapons::giveGrenades();
-		maps\mp\gametypes\_weapons::giveBinoculars();
+		self maps\mp\gametypes\_weapons::giveGrenades();
+		self maps\mp\gametypes\_weapons::giveBinoculars();
 
 		self giveWeapon(self.pers["weapon"]);
 		self giveMaxAmmo(self.pers["weapon"]);

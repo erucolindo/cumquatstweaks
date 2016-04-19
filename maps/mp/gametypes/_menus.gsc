@@ -234,6 +234,27 @@ onMenuResponse()
 			continue;
 		}
 
+		if(response == "toggleswap")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+			players = getentarray("player", "classname");
+
+			if(level.gamemode == "swap")
+			{
+				level.gamemode = "default";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^1Swap Mode disabled.");
+			}
+			else
+			{
+				level.gamemode = "swap";
+				maps\mp\gametypes\_cumquats::sayBoldAll("^2Swap Mode enabled.");
+			}
+
+			level notify("togglegamemodes");
+			continue;
+		}
+
 
 		if(response == "endgame")
 		{

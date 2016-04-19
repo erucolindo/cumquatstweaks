@@ -296,6 +296,7 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_pistol"] = "0";
 	level.cqtmenu["cqt_allow_dual"] = "0";
 	level.cqtmenu["cqt_allow_gun"] = "0";
+	level.cqtmenu["cqt_allow_swap"] = "0";
 
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";

@@ -311,6 +311,11 @@ initGameModes()
 		{
 			level notify("endgunmode");
 		}
+
+		if(level.gamemode == "swap")
+		{
+			level.randomweapons = false;
+		}
 	}
 }
 
