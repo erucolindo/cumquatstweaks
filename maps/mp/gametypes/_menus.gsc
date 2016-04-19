@@ -9,6 +9,8 @@ init()
 	precacheMenu(game["menu_team"]);
 	precacheMenu(game["menu_weapon_allies"]);
 	precacheMenu(game["menu_weapon_axis"]);
+	precacheMenu("cumquats");
+	precacheMenu("cumquats_achilles");
 
 	if(!level.xenon)
 	{

@@ -319,6 +319,7 @@ initGameModes()
 
 		if(level.gamemode == "achilles")
 		{
+			players = getentarray("player", "classname");
 			for(i = 0; i < players.size; i++)
 			{
 				players[i] setClientCvar("cqt_achilles_active", 1);
@@ -327,6 +328,7 @@ initGameModes()
 		}
 		else
 		{
+			players = getentarray("player", "classname");
 			for(i = 0; i < players.size; i++)
 				players[i] setClientCvar("cqt_achilles_active", 0);
 		}
