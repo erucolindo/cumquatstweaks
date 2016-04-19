@@ -884,4 +884,5 @@ updateCumquatsAllowMenu()
 	self setClientCvar("cqt_allow_pistol" ,level.cqtmenu["cqt_allow_pistol"]);
 	self setClientCvar("cqt_allow_dual" ,level.cqtmenu["cqt_allow_dual"]);
 	self setClientCvar("cqt_allow_gun" ,level.cqtmenu["cqt_allow_gun"]);
+	self setClientCvar("cqt_allow_swap" ,level.cqtmenu["cqt_allow_swap"]);
 }
