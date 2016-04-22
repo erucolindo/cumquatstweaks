@@ -99,6 +99,25 @@ onMenuResponse()
 			continue;
 		}
 
+		if(response == "togglegrenades")
+		{
+			self closeMenu();
+			self closeInGameMenu();
+
+			if(level.killstreakgrenades == false)
+			{
+				level.killstreakgrenades = true;
+				maps\mp\gametypes\_cumquats::sayBoldAll("^2Grenades at killstreaks is now enabled.");
+			}
+			else
+			{
+				level.killstreakgrenades = false;
+				maps\mp\gametypes\_cumquats::sayBoldAll("^1Grenade at killstreaks is now disabled.");
+			}
+
+			continue;
+		}
+
 		if(response == "togglecrazy")
 		{
 			self closeMenu();

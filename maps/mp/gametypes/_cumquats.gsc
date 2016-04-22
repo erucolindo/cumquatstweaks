@@ -784,7 +784,7 @@ gameModeRespawn()
 				{
 					self giveRandomPistol("primary");
 					self giveRandomPistol("primaryb");
-					maps\mp\gametypes\_weapons::giveBinoculars();
+					self maps\mp\gametypes\_weapons::giveBinoculars();
 
 					break;
 				}
@@ -799,8 +799,8 @@ gameModeRespawn()
 					self giveMaxAmmo(self.pers["weapon"]);
 					self setSpawnWeapon(self getweaponslotweapon("primary"));
 
-					maps\mp\gametypes\_weapons::giveGrenades();
-					maps\mp\gametypes\_weapons::giveBinoculars();
+					self maps\mp\gametypes\_weapons::giveGrenades();
+					self maps\mp\gametypes\_weapons::giveBinoculars();
 
 					break;
 				}
@@ -816,8 +816,8 @@ gameModeRespawn()
 						maps\mp\gametypes\_weapons::givePistol();
 					}
 
-					maps\mp\gametypes\_weapons::giveGrenades();
-					maps\mp\gametypes\_weapons::giveBinoculars();
+					self maps\mp\gametypes\_weapons::giveGrenades();
+					self maps\mp\gametypes\_weapons::giveBinoculars();
 
 					self giveWeapon(self.pers["weapon"]);
 					self giveMaxAmmo(self.pers["weapon"]);
@@ -834,8 +834,9 @@ gameModeRespawn()
 			self giveRandomPistol("primaryb");
 			self setSpawnWeapon(self getweaponslotweapon("primary"));
 
-			maps\mp\gametypes\_weapons::giveGrenades();
-			maps\mp\gametypes\_weapons::giveBinoculars();
+			if(level.killstreakgrenades == false)
+				self maps\mp\gametypes\_weapons::giveGrenades();
+			self maps\mp\gametypes\_weapons::giveBinoculars();
 
 			break;
 		}
@@ -849,8 +850,9 @@ gameModeRespawn()
 			self giveMaxAmmo(weapon2);
 			self setSpawnWeapon(self getweaponslotweapon("primary"));
 
-			maps\mp\gametypes\_weapons::giveGrenades();
-			maps\mp\gametypes\_weapons::giveBinoculars();
+			if(level.killstreakgrenades == false)
+				self maps\mp\gametypes\_weapons::giveGrenades();
+			self maps\mp\gametypes\_weapons::giveBinoculars();
 
 			break;
 		}
@@ -879,13 +881,57 @@ gameModeRespawn()
 				self maps\mp\gametypes\_weapons::givePistol();
 			}
 
-			self maps\mp\gametypes\_weapons::giveGrenades();
+			if(level.killstreakgrenades == false)
+				self maps\mp\gametypes\_weapons::giveGrenades();
 			self maps\mp\gametypes\_weapons::giveBinoculars();
 
 			self giveWeapon(self.pers["weapon"]);
 			self giveMaxAmmo(self.pers["weapon"]);
 			self setSpawnWeapon(self.pers["weapon"]);
 		}
+	}
+}
+
+grenadeAtKillstreak();
+{
+	if((self.killstreak % 2) == 0)
+	{
+		if(self.pers["team"] == "allies")
+			grenadetype = "frag_grenade_" + game["allies"] + "_mp";
+		else
+		{
+			assert(self.pers["team"] == "axis");
+			grenadetype = "frag_grenade_" + game["axis"] + "_mp";
+		}
+
+		fraggrenadecount = (self getammocount("frag_grenade_" + game["allies"] + "_mp") + self getammocount("frag_grenade_" + game["axis"] + "_mp"));
+		self takeWeapon("frag_grenade_american_mp");
+		self takeWeapon("frag_grenade_british_mp");
+		self takeWeapon("frag_grenade_russian_mp");
+		self takeWeapon("frag_grenade_german_mp");
+
+		self giveWeapon(grenadetype);
+		self setWeaponClipAmmo(grenadetype, fraggrenadecount + 1);
+	}
+
+	if((self.killstreak % 5) == 0)
+	{
+		if(self.pers["team"] == "allies")
+			grenadetype = "smoke_grenade_" + game["allies"] + "_mp";
+		else
+		{
+			assert(self.pers["team"] == "axis");
+			grenadetype = "smoke_grenade_" + game["axis"] + "_mp";
+		}
+
+		fraggrenadecount = (self getammocount("smoke_grenade_" + game["allies"] + "_mp") + self getammocount("smoke_grenade_" + game["axis"] + "_mp"));
+		self takeWeapon("smoke_grenade_american_mp");
+		self takeWeapon("smoke_grenade_british_mp");
+		self takeWeapon("smoke_grenade_russian_mp");
+		self takeWeapon("smoke_grenade_german_mp");
+
+		self giveWeapon(grenadetype);
+		self setWeaponClipAmmo(grenadetype, fraggrenadecount + 1);
 	}
 }
 
@@ -928,4 +974,5 @@ updateCumquatsAllowMenu()
 	self setClientCvar("cqt_allow_dual" ,level.cqtmenu["cqt_allow_dual"]);
 	self setClientCvar("cqt_allow_gun" ,level.cqtmenu["cqt_allow_gun"]);
 	self setClientCvar("cqt_allow_swap" ,level.cqtmenu["cqt_allow_swap"]);
+	self setClientCvar("cqt_allow_grenades" ,level.cqtmenu["cqt_allow_grenades"]);
 }

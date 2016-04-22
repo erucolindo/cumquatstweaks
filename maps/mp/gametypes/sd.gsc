@@ -285,6 +285,7 @@ Callback_StartGameType()
 	if(getCvar("cqt_random_weapons") == "")
 		setCvar("cqt_random_weapons", "0");
 	level.randomweapons = (getCvarInt("cqt_random_weapons") == 1);
+	level.killstreakgrenades = false;
 	level.showkillcam = true;
 	level.gamemode = "default";
 	level.crazymodetype = 0;
@@ -299,6 +300,7 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_dual"] = "0";
 	level.cqtmenu["cqt_allow_gun"] = "0";
 	level.cqtmenu["cqt_allow_swap"] = "0";
+	level.cqtmenu["cqt_allow_grenades"] = "0";
 
 	if(!isdefined(game["state"]))
 		game["state"] = "playing";

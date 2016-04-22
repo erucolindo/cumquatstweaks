@@ -142,6 +142,7 @@ Callback_StartGameType()
 	if(getCvar("cqt_random_weapons") == "")
 		setCvar("cqt_random_weapons", "0");
 	level.randomweapons = (getCvarInt("cqt_random_weapons") == 1);
+	level.killstreakgrenades = false;
 	level.showkillcam = true;
 	level.instagib = false;
 	level.gamemode = "default";
@@ -157,6 +158,8 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_dual"] = "1";
 	level.cqtmenu["cqt_allow_gun"] = "1";
 	level.cqtmenu["cqt_allow_swap"] = "1";
+	level.cqtmenu["cqt_allow_grenades"] = "1";
+
 
 	level.gunmodescorelimit = level.scorelimit;
 
@@ -421,6 +424,9 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 				self.pers["weapon"] = attacker_weapon;
 			}
+
+			if(level.killstreakgrenades)
+				self maps\mp\gametypes\_cumquats::grenadeAtKillstreak();
 		}
 
 		lpattacknum = attacker getEntityNumber();

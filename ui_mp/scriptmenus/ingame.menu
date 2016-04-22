@@ -446,13 +446,14 @@
 
 // MENU CHOICES
 		execKey "1" { play "mouse_click"; scriptMenuResponse "togglerandom" }
-		execKey "2" { play "mouse_click"; scriptMenuResponse "togglekillcam" }
-		execKey "3" { play "mouse_click"; scriptMenuResponse "toggleinstagib" }
-		execKey "4" { play "mouse_click"; scriptMenuResponse "togglecrazy" }
-		execKey "5" { play "mouse_click"; scriptMenuResponse "togglepistol" }
-		execKey "6" { play "mouse_click"; scriptMenuResponse "toggledual" }
-		execKey "7" { play "mouse_click"; scriptMenuResponse "togglegun" }
-		execKey "8" { play "mouse_click"; scriptMenuResponse "toggleswap" }
+		execKey "2" { play "mouse_click"; scriptMenuResponse "togglegrenades" }
+		execKey "3" { play "mouse_click"; scriptMenuResponse "togglekillcam" }
+		execKey "4" { play "mouse_click"; scriptMenuResponse "toggleinstagib" }
+		execKey "5" { play "mouse_click"; scriptMenuResponse "togglecrazy" }
+		execKey "6" { play "mouse_click"; scriptMenuResponse "togglepistol" }
+		execKey "7" { play "mouse_click"; scriptMenuResponse "toggledual" }
+		execKey "8" { play "mouse_click"; scriptMenuResponse "togglegun" }
+		execKey "9" { play "mouse_click"; scriptMenuResponse "toggleswap" }
 
 		itemDef
 		{
@@ -480,16 +481,41 @@
 			}
 		}
 
+		itemDef
+		{
+			name			"button_grenades"
+			visible			1
+			rect			0 0 128 24
+			origin			ORIGIN_CHOICE1
+			forecolor		GLOBAL_UNFOCUSED_COLOR
+			type			ITEM_TYPE_BUTTON
+			text			"2. Toggle Grenades at Killstreaks"
+			textfont		UI_FONT_NORMAL
+			textscale		GLOBAL_TEXT_SIZE
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textaligny		20
+			dvartest		"cqt_allow_grenades"
+			showDvar		{ "1" }
+			action
+			{
+				play "mouse_click";
+				scriptMenuResponse "togglegrenades";
+			}
+			onFocus
+			{
+				play "mouse_over";
+			}
+		}
 
 		itemDef
 		{
 			name			"button_killcam"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE2
+			origin			ORIGIN_CHOICE3
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"2. Toggle Killcam"
+			text			"3. Toggle Killcam"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -512,10 +538,10 @@
 			name			"button_instagib"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE3
+			origin			ORIGIN_CHOICE4
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"3. Toggle Instagib"
+			text			"4. Toggle Instagib"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -538,10 +564,10 @@
 			name			"button_crazymode"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE4
+			origin			ORIGIN_CHOICE5
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"4. Toggle Crazy Mode"
+			text			"5. Toggle Crazy Mode"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -564,10 +590,10 @@
 			name			"button_pistolmode"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE5
+			origin			ORIGIN_CHOICE6
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"5. Toggle Pistol Mode"
+			text			"6. Toggle Pistol Mode"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -590,10 +616,10 @@
 			name			"button_dualmode"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE6
+			origin			ORIGIN_CHOICE7
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"6. Toggle Dual Mode"
+			text			"7. Toggle Dual Mode"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -616,10 +642,10 @@
 			name			"button_gunmode"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE7
+			origin			ORIGIN_CHOICE8
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"7. Toggle Gun Game"
+			text			"8. Toggle Gun Game"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
@@ -642,10 +668,10 @@
 			name			"button_swapmode"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE8
+			origin			ORIGIN_CHOICE9
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
-			text			"8. Toggle Swap Mode"
+			text			"9. Toggle Swap Mode"
 			textfont		UI_FONT_NORMAL
 			textscale		GLOBAL_TEXT_SIZE
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
