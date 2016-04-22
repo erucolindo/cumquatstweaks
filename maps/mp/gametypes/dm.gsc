@@ -419,9 +419,6 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 				attacker takeWeapon(attacker getweaponslotweapon("primaryb"));
 
 				attacker.pers["weapon"] = self.pers["weapon"];
-				attacker maps\mp\gametypes\_weapons::givePistol();
-				attacker maps\mp\gametypes\_weapons::giveGrenades();
-				attacker maps\mp\gametypes\_weapons::giveBinoculars();
 				attacker giveWeapon(self.pers["weapon"]);
 				attacker giveMaxAmmo(self.pers["weapon"]);
 				attacker setSpawnWeapon(self.pers["weapon"]);
