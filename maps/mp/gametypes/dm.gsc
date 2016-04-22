@@ -157,7 +157,6 @@ Callback_StartGameType()
 	level.cqtmenu["cqt_allow_dual"] = "1";
 	level.cqtmenu["cqt_allow_gun"] = "1";
 	level.cqtmenu["cqt_allow_swap"] = "1";
-	level.cqtmenu["cqt_allow_achilles"] = "1";
 
 	level.gunmodescorelimit = level.scorelimit;
 
@@ -299,9 +298,6 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 
 	if(level.instagib)
 		iDamage = 10000;
-
-	if(level.gamemode == "achilles")
-		iDamage = self maps\mp\gametypes\_cumquats::achillesDamage(sHitLoc, iDamage);
 
 	// Do debug print if it's enabled
 	if(getCvarInt("g_debugDamage"))
