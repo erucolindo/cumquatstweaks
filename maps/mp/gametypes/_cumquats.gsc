@@ -890,8 +890,16 @@ gameModeRespawn()
 		{
 			if(level.randomweapons)
 			{
-				self.pers["weapon"] = maps\mp\gametypes\_cumquats::selectRandomWeaponAll();
-				self maps\mp\gametypes\_cumquats::giveRandomPistol("primaryb");
+				if(level.gametype == "dm")
+				{
+					self.pers["weapon"] = maps\mp\gametypes\_cumquats::selectRandomWeaponAll();
+					self maps\mp\gametypes\_cumquats::giveRandomPistol("primaryb");
+				}
+				else
+				{
+					self.pers["weapon"] = self maps\mp\gametypes\_cumquats::selectRandomWeapon();
+					self maps\mp\gametypes\_weapons::givePistol();
+				}
 			}
 			else
 			{
