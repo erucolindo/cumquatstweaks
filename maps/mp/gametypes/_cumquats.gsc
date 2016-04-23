@@ -892,7 +892,7 @@ gameModeRespawn()
 	}
 }
 
-grenadeAtKillstreak();
+grenadeAtKillstreak()
 {
 	if((self.killstreak % 2) == 0)
 	{

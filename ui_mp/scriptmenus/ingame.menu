@@ -220,33 +220,6 @@
 
 		itemDef
 		{
-			name			"button_achilles"
-			visible			1
-			rect			0 0 128 24
-			origin			ORIGIN_CHOICE9
-			forecolor		GLOBAL_UNFOCUSED_COLOR
-			type			ITEM_TYPE_BUTTON
-			text			"9. Achilles Mode"
-			textfont		UI_FONT_NORMAL
-			textscale		GLOBAL_TEXT_SIZE
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textaligny		20
-			dvartest		"cqt_achilles_active"
-			showDvar		{ "1" }
-			action
-			{
-				play "mouse_click";
-				close ingame;
-				open cumquats_achilles;
-			}
-			onFocus
-			{
-				play "mouse_over";
-			}
-		}
-
-		itemDef
-		{
 			name			"button_cumquats"
 			visible			1
 			rect			0 0 128 24
@@ -486,7 +459,7 @@
 			name			"button_grenades"
 			visible			1
 			rect			0 0 128 24
-			origin			ORIGIN_CHOICE1
+			origin			ORIGIN_CHOICE2
 			forecolor		GLOBAL_UNFOCUSED_COLOR
 			type			ITEM_TYPE_BUTTON
 			text			"2. Toggle Grenades at Killstreaks"
