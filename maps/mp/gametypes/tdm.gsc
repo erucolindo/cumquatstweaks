@@ -519,7 +519,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 				attacker maps\mp\gametypes\_cumquats::checkKillstreak();
 
 				if(level.killstreakgrenades)
-					self maps\mp\gametypes\_cumquats::grenadeAtKillstreak();
+					attacker maps\mp\gametypes\_cumquats::grenadeAtKillstreak();
 			}
 		}
 

@@ -426,7 +426,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 			}
 
 			if(level.killstreakgrenades)
-				self maps\mp\gametypes\_cumquats::grenadeAtKillstreak();
+				attacker maps\mp\gametypes\_cumquats::grenadeAtKillstreak();
 		}
 
 		lpattacknum = attacker getEntityNumber();
