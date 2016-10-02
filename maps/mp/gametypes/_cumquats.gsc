@@ -272,14 +272,14 @@ initGameModes()
 		if(level.gamemode == "crazy")
 		{
 			level.crazymodenext = getTime() + 10000;
-			level.do_log = "false";
+			level.do_log = false;
 
 			thread runCrazyMode();
 		}
 		else
 		{
 			level notify("endcrazymode");
-			level.do_log = "true";
+			level.do_log = true;
 		}
 
 		if(level.gamemode == "pistol")
@@ -319,12 +319,6 @@ initGameModes()
 			level.randomweapons = false;
 		}
 
-		else
-		{
-			players = getentarray("player", "classname");
-			for(i = 0; i < players.size; i++)
-				players[i] setClientCvar("cqt_achilles_active", 0);
-		}
 	}
 }
 

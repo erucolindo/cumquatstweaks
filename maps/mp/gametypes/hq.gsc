@@ -211,7 +211,7 @@ Callback_StartGameType()
 	level.gamemode = "default";
 	level.crazymodetype = 0;
 	level.gametype = "hq";
-	level.do_log = "true";
+	level.do_log = true;
 
 	level.cqtmenu = [];
 	level.cqtmenu["cqt_allow_random"] = "1";
