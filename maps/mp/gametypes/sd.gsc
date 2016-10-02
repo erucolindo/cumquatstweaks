@@ -290,6 +290,7 @@ Callback_StartGameType()
 	level.gamemode = "default";
 	level.crazymodetype = 0;
 	level.gametype = "sd";
+	level.do_log = "true";
 
 	level.cqtmenu = [];
 	level.cqtmenu["cqt_allow_random"] = "1";
@@ -680,7 +681,8 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self notify("killed_player", self);
 	}
 
-	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
+	if(level.do_log)
+		logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;
 
