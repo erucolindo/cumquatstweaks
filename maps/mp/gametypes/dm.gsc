@@ -148,7 +148,6 @@ Callback_StartGameType()
 	level.gamemode = "default";
 	level.crazymodetype = 0;
 	level.gametype = "dm";
-	level.do_log = true;
 
 	level.cqtmenu = [];
 	level.cqtmenu["cqt_allow_random"] = "1";
@@ -449,7 +448,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self notify("update_playerhud_score");
 	}
 
-	if(level.do_log)
+	if(maps\mp\gametypes\_cumquats::doLog())
 		logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + ";" + meters + ";" + self.killstreak + ";" + attacker.killstreak + "\n");
 
 	self.killstreak = 0;

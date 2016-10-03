@@ -259,6 +259,13 @@ enforcePistolRule()
 	}
 }
 
+doLog()
+{
+	if ((level.gamemode == "crazy") || level.instagib)
+		return false;
+	return true;
+}
+
 initGameModes()
 {
 	self endon("disconnect");

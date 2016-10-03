@@ -216,13 +216,11 @@ onMenuResponse()
 			if(level.instagib == false)
 			{
 				level.instagib = true;
-				level.do_log = false;
 				maps\mp\gametypes\_cumquats::sayBoldAll("^2Instagib is now enabled.");
 			}
 			else
 			{
 				level.instagib = false;
-				level.do_log = true;
 				maps\mp\gametypes\_cumquats::sayBoldAll("^1Instagib is now disabled.");
 			}
 
